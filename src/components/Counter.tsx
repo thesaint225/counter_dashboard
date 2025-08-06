@@ -1,26 +1,23 @@
 import { useState } from 'react';
 
-export default function Counter() {
-  const [count, setCount] = useState(0);
-  const [previousCount, setPreviousCount] = useState(0);
-  function handleIncrement() {
-    setPreviousCount(count);
-    setCount((prev) => prev + 1);
-    setCount((prev) => prev + 1);
-    setCount((prev) => prev + 1);
-  }
-  function handleDecrement() {
-    setPreviousCount(count);
-    setCount((prev) => prev - 1);
-    setCount((prev) => prev - 1);
-    setCount((prev) => prev - 1);
-  }
-  function reset() {
-    setCount(0);
-  }
+type CounterProps = {
+  count: number;
+  previousCount: number;
+  onIncrement: () => void;
+  onDecrement: () => void;
+  onReset: () => void;
+};
+
+export default function Counter({
+  count,
+  previousCount,
+  onIncrement,
+  onDecrement,
+  onReset,
+}: CounterProps) {
   return (
     <div>
-      <button onClick={handleIncrement}>+</button>
+      <button onClick={onIncrement}>+</button>
       <button>Count:{count}</button>
       <p>
         {count > previousCount
@@ -30,8 +27,8 @@ export default function Counter() {
           : 'same'}
       </p>
 
-      <button onClick={handleDecrement}>-</button>
-      <button onClick={reset}>reset</button>
+      <button onClick={onDecrement}>-</button>
+      <button onClick={onReset}> reset</button>
     </div>
   );
 }

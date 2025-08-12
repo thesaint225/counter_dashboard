@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import type { CounterType } from '../types';
+import { useEffect, useState } from 'react';
+import type { Counter } from '../types/types';
+import { v4 as uuidv4 } from 'uuid';
 
 const STORAGE_KEY = 'counters';
 
 export default function useCounter() {
-  const [counters, setsetCounters] = useState<CounterType[]>(() => {
+  const [counters, setCounters] = useState<Counter[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       return saved ? JSON.parse(saved) : [];
@@ -17,5 +18,15 @@ export default function useCounter() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(counters));
   }, [counters]);
 
-  return <div></div>;
+  const addCounter = () => {
+    setCounters((prevCounters) => [
+      ...prevCounters,
+      {
+        id: uuidv4(),
+        count: 0,
+        previousCount: 0,
+        name: `counter ${prevCounters.length + 1}`,
+      },
+    ]);
+  };
 }
